@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Some Lessons Last a Lifetime</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background: #ffffff;
+            color: #111827;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        img {
+            max-width: 100%;
+            display: block;
+        }
+        
+        
+        
+        
+        :root {
+            --white: #ffffff;
+            --pearl: #f8fafc;
+            --ink: #111827;
+            --muted: #64748b;
+            --soft: #94a3b8;
+            
+            --accent: #e07a5f;
+            
+            --border: rgba(15, 23, 42, 0.08);
+            
+            --sans:
+                Inter,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+            
+            --serif:
+                Georgia,
+                "Times New Roman",
+                serif;
+            
+            --content: 750px;
+            --wide: 1200px;
+        }
+        
+        
+        
+        
+        .container {
+            width: min(100% - 40px, var(--wide));
+            margin: auto;
+        }
+        
+        .reading-width {
+            width: min(100%, var(--content));
+            margin: auto;
+        }
+        
+        
+        
+        .progress-track {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            
+            width: 100%;
+            height: 3px;
+        }
+        
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: var(--accent);
+        }
+        
+        
+        
+        
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            
+            width: 100%;
+            
+            padding: 22px 28px;
+            
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            
+            pointer-events: none;
+            
+            transition: 0.3s ease;
+        }
+        
+        .site-header.scrolled {
+            background: rgba(255, 255, 255, 0.88);
+            
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            
+            box-shadow:
+                0 1px 0 rgba(15, 23, 42, 0.06);
+            
+            padding-block: 15px;
+        }
+        
+        .brand {
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            
+            pointer-events: auto;
+        }
+        
+        .chapter-indicator {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            
+            color: var(--muted);
+        }
+        
+        
+        
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            
+            transition:
+                opacity 0.9s ease,
+                transform 0.9s ease;
+        }
+        
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .delay-1 {
+            transition-delay: 0.1s;
+        }
+        
+        .delay-2 {
+            transition-delay: 0.2s;
+        }
+        
+        .delay-3 {
+            transition-delay: 0.3s;
+        }
+        
+        
+        
+        
+        .hero {
+            min-height: 100svh;
+            
+            position: relative;
+            
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            padding: 120px 24px 80px;
+            
+            text-align: center;
+            
+            background: #ffffff;
+            
+            overflow: hidden;
+        }
+        
+        
+        
+        
+        .hero::before {
+            content: "";
+            
+            position: absolute;
+            
+            width: 500px;
+            height: 500px;
+            
+            left: 50%;
+            top: 50%;
+            
+            transform: translate(-50%, -50%);
+            
+            background:
+                radial-gradient(circle,
+                    rgba(224, 122, 95, 0.045),
+                    transparent 65%);
+            
+            filter: blur(30px);
+            
+            animation: heroGlow 7s ease-in-out infinite;
+        }
+        
+        
+        @keyframes heroGlow {
+            
+            0%,
+            100% {
+                transform:
+                    translate(-50%, -50%) scale(0.9);
+            }
+            
+            50% {
+                transform:
+                    translate(-50%, -50%) scale(1.15);
+            }
+        }
+        
+        
+        .hero-content {
+            width: min(100%, 1050px);
+            
+            position: relative;
+            z-index: 2;
+        }
+        
+        
+        
+        
+        .hero-kicker {
+            
+            margin-bottom: 35px;
+            
+            color: var(--accent);
+            
+            font-size: 12px;
+            font-weight: 800;
+            
+            letter-spacing: 0.2em;
+            
+            text-transform: uppercase;
+            
+            opacity: 0;
+            
+            transform:
+                translateY(20px) scale(0.98);
+            
+            filter: blur(8px);
+            
+            animation:
+                heroKicker 1s cubic-bezier(.2, .7, .2, 1) 0.2s forwards;
+        }
+        
+        
+        @keyframes heroKicker {
+            
+            to {
+                
+                opacity: 1;
+                
+                transform:
+                    translateY(0) scale(1);
+                
+                filter: blur(0);
+                
+            }
+            
+        }
+        
+        
+        
+        
+        .hero-title {
+            
+            font-size:
+                clamp(3.2rem, 8vw, 8rem);
+            
+            line-height: 0.96;
+            
+            letter-spacing: -0.065em;
+            
+            font-weight: 850;
+            
+            overflow: visible;
+        }
+        
+        
+        
+        
+        .hero-title .soft {
+            
+            display: block;
+            
+            color: #64748b;
+            
+            font-size: 0.48em;
+            
+            line-height: 1.15;
+            
+            margin-bottom: 22px;
+            
+            opacity: 0;
+            
+            transform:
+                translateY(35px) scale(0.98);
+            
+            filter: blur(12px);
+            
+            animation:
+                heroSoftReveal 1.2s cubic-bezier(.16, .7, .2, 1) 0.8s forwards;
+        }
+        
+        
+        @keyframes heroSoftReveal {
+            
+            0% {
+                
+                opacity: 0;
+                
+                transform:
+                    translateY(35px) scale(0.98);
+                
+                filter: blur(12px);
+                
+            }
+            
+            60% {
+                
+                opacity: 0.7;
+                
+            }
+            
+            100% {
+                
+                opacity: 1;
+                
+                transform:
+                    translateY(0) scale(1);
+                
+                filter: blur(0);
+                
+            }
+            
+        }
+        
+        
+        
+        
+        .hero-title .strong {
+            
+            display: block;
+            
+            color: var(--ink);
+            
+            opacity: 0;
+            
+            transform:
+                translateY(55px) scale(0.96);
+            
+            filter: blur(16px);
+            
+            animation:
+                heroMainReveal 1.5s cubic-bezier(.12, .72, .2, 1) 1.8s forwards;
+        }
+        
+        
+        @keyframes heroMainReveal {
+            
+            0% {
+                
+                opacity: 0;
+                
+                transform:
+                    translateY(55px) scale(0.96);
+                
+                filter: blur(16px);
+                
+            }
+            
+            55% {
+                
+                opacity: 0.8;
+                
+            }
+            
+            100% {
+                
+                opacity: 1;
+                
+                transform:
+                    translateY(0) scale(1);
+                
+                filter: blur(0);
+                
+            }
+            
+        }
+        
+        
+        
+        
+        .hero-subtitle {
+            
+            max-width: 600px;
+            
+            margin: 42px auto 0;
+            
+            color: var(--muted);
+            
+            font-family: var(--serif);
+            
+            font-size: 1.1rem;
+            
+            line-height: 1.8;
+            
+            opacity: 0;
+            
+            transform: translateY(25px);
+            
+            filter: blur(7px);
+            
+            animation:
+                heroSubtitleReveal 1s ease 3.15s forwards;
+        }
+        
+        
+        @keyframes heroSubtitleReveal {
+            
+            to {
+                
+                opacity: 1;
+                
+                transform: translateY(0);
+                
+                filter: blur(0);
+                
+            }
+            
+        }
+        
+        
+        
+        
+        .scroll-indicator {
+            
+            position: absolute;
+            
+            left: 50%;
+            bottom: 35px;
+            
+            transform:
+                translateX(-50%) translateY(15px);
+            
+            display: flex;
+            
+            flex-direction: column;
+            
+            align-items: center;
+            
+            gap: 12px;
+            
+            color: var(--soft);
+            
+            font-size: 10px;
+            
+            font-weight: 800;
+            
+            letter-spacing: 0.14em;
+            
+            text-transform: uppercase;
+            
+            opacity: 0;
+            
+            animation:
+                indicatorReveal 0.9s ease 3.6s forwards;
+        }
+        
+        
+        @keyframes indicatorReveal {
+            
+            to {
+                
+                opacity: 1;
+                
+                transform:
+                    translateX(-50%) translateY(0);
+                
+            }
+            
+        }
+        
+        
+        
+        
+        .scroll-line {
+            
+            width: 1px;
+            
+            height: 42px;
+            
+            background: #e2e8f0;
+            
+            overflow: hidden;
+            
+            position: relative;
+        }
+        
+        
+        .scroll-line::after {
+            
+            content: "";
+            
+            position: absolute;
+            
+            top: -100%;
+            left: 0;
+            
+            width: 100%;
+            height: 50%;
+            
+            background: var(--accent);
+            
+            animation:
+                scrollMove 1.7s ease-in-out 4.2s infinite;
+        }
+        
+        
+        @keyframes scrollMove {
+            
+            0% {
+                top: -60%;
+            }
+            
+            100% {
+                top: 110%;
+            }
+            
+        }
+        
+        
+        
+        
+        @media (max-width: 700px) {
+            
+            .hero {
+                padding:
+                    100px 20px 80px;
+            }
+            
+            .hero-kicker {
+                font-size: 10px;
+                margin-bottom: 28px;
+            }
+            
+            .hero-title {
+                font-size:
+                    clamp(3rem, 14vw, 5rem);
+            }
+            
+            .hero-title .soft {
+                font-size: 0.52em;
+            }
+            
+            .hero-subtitle {
+                margin-top: 30px;
+                font-size: 1rem;
+            }
+            
+            .scroll-indicator {
+                bottom: 25px;
+            }
+            
+        }
+        
+        
+        
+        .scroll-indicator {
+            position: absolute;
+            
+            left: 50%;
+            bottom: 35px;
+            
+            transform: translateX(-50%);
+            
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            
+            gap: 12px;
+            
+            color: var(--soft);
+            
+            font-size: 10px;
+            font-weight: 800;
+            
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+        
+        .scroll-line {
+            width: 1px;
+            height: 42px;
+            
+            background: #e2e8f0;
+            
+            overflow: hidden;
+            
+            position: relative;
+        }
+        
+        .scroll-line::after {
+            content: "";
+            
+            position: absolute;
+            
+            top: -100%;
+            left: 0;
+            
+            width: 100%;
+            height: 50%;
+            
+            background: var(--accent);
+            
+            animation: scrollMove 1.7s infinite;
+        }
+        
+        @keyframes scrollMove {
+            
+            0% {
+                top: -60%;
+            }
+            
+            100% {
+                top: 110%;
+            }
+        }
+    </style>
+    
+</head>
+
+<body>
+    
+    <div class="progress-track">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <header class="site-header" id="siteHeader">
+        
+        <div class="brand">
+            A Small Tribute
+        </div>
+        
+        <div class="chapter-indicator" id="chapterIndicator">
+            The Beginning
+        </div>
+        
+    </header>
+    
+    <main>
+        
+        <section class="hero">
+            
+            <div class="hero-content">
+                
+                <div class="hero-kicker">
+                    Teacher's Day · 2026
+                </div>
+                
+                
+                <h1 class="hero-title">
+                    
+                    <span class="soft">
+                        Some lessons last a semester.
+                    </span>
+                    
+                    <span class="strong">
+                        Yours will last a lifetime.
+                    </span>
+                    
+                </h1>
+                
+                
+                <p class="hero-subtitle">
+                    This isn't really a page about school.
+                    It is about the people who make a classroom
+                    mean something long after the final bell.
+                </p>
+                
+            </div>
+            
+            
+            <div class="scroll-indicator">
+                
+                <span>
+                    Scroll to begin the journey
+                </span>
+                
+                <div class="scroll-line"></div>
+                
+            </div>
+            
+        </section>
+        
+        
+        <section class="metrics" data-chapter="A Few Things That Matter">
+            
+            <div class="container">
+                
+                <div class="metrics-intro">
+                    
+                    <div class="eyebrow reveal">
+                        Before the story begins
+                    </div>
+                    
+                    <h2 class="section-heading reveal delay-1">
+                        Some things cannot really be counted.
+                    </h2>
+                    
+                </div>
+                
+                
+                <div class="metrics-grid">
+                    
+                    
+                    <article class="metric reveal">
+                        
+                        <div class="metric-number" data-target="1825" data-suffix="+">
+                            0
+                        </div>
+                        
+                        <div class="metric-label">
+                            Days since this chapter of life began.
+                        </div>
+                        
+                    </article>
+                    
+                    
+                    <article class="metric reveal delay-1">
+                        
+                        <div class="metric-number" data-target="1000" data-suffix="+">
+                            0
+                        </div>
+                        
+                        <div class="metric-label">
+                            Questions asked, answered,
+                            forgotten, and asked again.
+                        </div>
+                        
+                    </article>
+                    
+                    
+                    <article class="metric reveal delay-2">
+                        
+                        <div class="metric-number">
+                            ∞
+                        </div>
+                        
+                        <div class="metric-label">
+                            Memories that don't have
+                            a measurable number.
+                        </div>
+                        
+                    </article>
+                    
+                </div>
+                
+            </div>
+            
+        </section>
+        
+        
+        
+        
+        <section class="chapter" data-chapter="Chapter I · The First Day">
+            
+            <div class="container">
+                
+                <div class="chapter-number reveal">
+                    Chapter I · The First Day
+                </div>
+                
+                <h2 class="chapter-title reveal delay-1">
+                    Every story has a beginning.
+                </h2>
+                
+                
+                <div class="reading-width">
+                    
+                    <p class="chapter-lead reveal delay-2">
+                        It was during the uncertain days of the pandemic. On that very first day, I walked into the classroom, slinging my bag off my back, completely unaware of the role you were about to play in my life. You stepped into the room to take attendance for the first time, and looking right at me, you gave me a simple task: go check the headcount in Section B.
+                        
+                    </p>
+                    
+                    <p class="reveal">
+                        I peeked in and saw the reality—Section B had 30 students, while our Section A had 31. However, my entire group of friends was sitting right there in Section A. Faced with the terrifying prospect of being transferred away from them, I panicked and told a tiny white lie. I walked back, looked at you, and confidently said that Section B already had 32 students.
+                        
+                    </p>
+                    
+                    
+                    <p class="reveal">
+                        Then you wrote my name down in the Section A register—the class where you had just been appointed as the class teacher. By letting me stay, that small, desperate fib became the exact moment our story began. The bond didn't form overnight, but as the months passed by, those quiet, everyday moments slowly built into unforgettable memories.
+                    </p>
+                    
+                    
+                    
+                </div>
+                
+                
+                <div class="pull-quote reveal">
+                    
+                    <p>
+                        "A great teacher doesn't simply enter
+                        a classroom. They leave something behind."
+                    </p>
+                    
+                    <span>
+                        A thought worth remembering
+                    </span>
+                    
+                </div>
+                
+            </div>
+            
+        </section>
+        
+        
+        
+        
+        <section class="chapter" data-chapter="Chapter II · The Patience">
+            
+            <div class="container">
+                
+                <div class="chapter-number reveal">
+                    Chapter II · The Patience
+                </div>
+                
+                <h2 class="chapter-title reveal delay-1">
+                    You taught more than answers.
+                </h2>
+                
+                
+                <div class="reading-width">
+                    
+                    <p class="chapter-lead reveal delay-2">
+                        Looking back, that small lie to stay in Section A was probably the best decision I have ever made. Days turned into months, and months eventually turned into years. Usually, as students grow older, the distance between them and their teachers widens, but for our batch, the bond we shared with you only strengthened over time. You proved your incredible dedication when you chose not to leave the school, staying by our side as our class teacher for three vital years just to see us through.
+                    </p>
+                    
+                    <p class="reveal">
+                        At every step and in every moment, you were quietly building our character, and you did so by leading by example. Nothing left a deeper impression on us than your own impeccable, unblemished character. In a world where people easily compromise their values, you stood as a rare example of someone with an unimaginably strong moral compass.
+                    </p>
+                    
+                    
+                    
+                </div>
+                
+            </div>
+            
+        </section>
+        
+        
+        
+        
+        <section class="chapter" data-chapter="Chapter III · Beyond the Syllabus">
+            
+            <div class="container">
+                
+                <div class="chapter-number reveal">
+                    Chapter III · Beyond the Syllabus
+                </div>
+                
+                <h2 class="chapter-title reveal delay-1">
+                    The best lessons were never in the book.
+                </h2>
+                
+                
+                <div class="reading-width">
+                    
+                    <p class="chapter-lead reveal delay-2">
+                        During the five years with you, you taught us far more than what was ever printed in our textbooks. A syllabus dictates what we need to memorize for an exam, but you showed us why true understanding actually matters in the real world.
+                        
+                    </p>
+                    
+                    <p class="reveal">
+                        Because of your guidance, my entire perspective on society shifted. You taught me to look at everyone with genuine respect—even those society often overlooks. You helped us realize that, much like the background dancers in an orchestra, every single person plays a vital role and deserves absolute dignity.
+                    </p>
+                    
+                    <p class="reveal">
+                        Beyond academics, you taught us the true meaning of patience and integrity. You showed us by example that discipline doesn't have to be loud to be effective, and that true strength lies in staying calm and compassionate when we make mistakes.
+                        
+                    </p>
+                    
+                    <p class="reveal">
+                        ​In a highly competitive environment where marks often define a student, you constantly reminded us that our character is our most important report card. You gave us the courage to embrace failure, take responsibility, and face complex challenges with curiosity instead of fear.
+                        
+                    </p>
+                    
+                    
+                    
+                    
+                </div>
+                
+            </div>
+            
+        </section>
+        
+        
+        
+        <section class="chapter" data-chapter="Chapter IV · The Transition">
+            
+            <div class="container">
+                
+                <div class="chapter-number reveal">
+                    Chapter IV · The Transition to Class 11
+                </div>
+                
+                <h2 class="chapter-title reveal delay-1">
+                    Then suddenly, the next chapter arrived.
+                </h2>
+                
+                
+                <div class="reading-width">
+                    
+                    <p class="chapter-lead reveal delay-2">
+                        School years have a strange habit of moving faster than expected. One moment we are sitting in your familiar classroom, and suddenly, the board exams are over, and the next chapter arrives with full force.
+                        
+                    </p>
+                    
+                    <p class="reveal">
+                        The leap into Class 11 feels entirely different. The shift to the heavy sciences and mathematics, along with the intense preparation for advanced engineering exams, doesn't just change the syllabus—it changes how I have to think. The numericals are heavier, the core concepts run much deeper, and the road ahead feels considerably steeper.
+                    </p>
+                    
+                    <p class="reveal">
+                        Yet, as I dive into complex problem-solving—whether I am breaking down high-level physics equations, mapping out the backend database for a new web application, or debugging lines of code—I realize I am still relying on the tools you gave me. The patience to troubleshoot, the logic to build things step-by-step, and the refusal to quit when a concept refuses to click all trace back to your classroom.
+                    </p>
+                    
+                    <p class="reveal">
+                        My goals to build, develop, and engineer solutions in the real world require a strong analytical foundation. But more importantly, they require the resilience and character you modeled for us every single day. The subjects are harder now, but having a teacher like you lay the foundational bricks of my mindset makes all the difference. </p>
+                    
+                    
+                    
+                </div>
+                
+                
+                <div class="pull-quote reveal">
+                    
+                    <p>
+                        "Moving forward doesn't mean leaving
+                        every lesson behind."
+                    </p>
+                    
+                    <span>
+                        Chapter IV
+                    </span>
+                    
+                </div>
+                
+            </div>
+            
+        </section>
+        
+        
+        
+        <section class="chapter" data-chapter="Chapter V · The Legacy">
+            
+            <div class="container">
+                
+                <div class="chapter-number reveal">
+                    Chapter V · The Legacy
+                </div>
+                
+                <h2 class="chapter-title reveal delay-1">
+                    Some teachers become part of who we become.
+                </h2>
+                
+                
+                <div class="reading-width">
+                    
+                    <p class="chapter-lead reveal delay-2">
+                        As time moves forward, the sharp details of the syllabus will inevitably blur. I may one day forget the exact phrasing of an explanation you wrote on the board. But what I will never forget is the atmosphere of your classroom—how you made us feel safe to make mistakes, challenged us to think bigger, and saw us as individuals with real potential.
+                        
+                    </p>
+                    
+                    <p class="reveal">
+                        The academic pressures of Class 11 demand more, and the years will continue to fly by, but the respect I hold for you remains completely untouched by time. Thank you for not just teaching me how to study, but for showing me how to be.
+                        
+                    </p>
+                    
+                    <p class="reveal">
+                        Happy Teacher's Day to my greatest inspiration. Your seat is forever reserved in the deepest chamber of my heart.
+                        
+                        
+                    </p>
+                    
+                </div>
+                
+            </div>
+            
+        </section>
+        
+        
+        <style type="text/css" media="all">
+            .grand-finale {
+                font-size: 3rem;
+                margin-top: 40px;
+                color: #1f2937;
+                text-align: center;
+            }
+            
+            .signature {
+                font-size: 1.2rem;
+                font-style: italic;
+                color: #4b5563;
+                display: block;
+                margin-top: 10px;
+            }
+            
+            .reveal.delay-4.active {
+                opacity: 1;
+                transform: translateY(0) scale(1.05);
+                transition: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.2s;
+            }
+        </style>
+        <section class="final" data-chapter="The Memory">
+            
+            <div class="final-content">
+                
+                <div class="eyebrow reveal">
+                    And after all the words...
+                </div>
+                
+                <h2 class="final-heading reveal delay-1">
+                    There is one memory
+                    worth keeping.
+                </h2>
+                
+                <div class="photo-wrapper reveal delay-2">
+                    <img src="/image.jpg" alt="A special classroom memory" loading="lazy">
+                </div>
+                
+                <p class="signoff reveal delay-3">
+                    ~ from my heart ❤️
+                    to my special inspiration <br>
+                    <span class="signature">— Pushkar</span>
+                </p>
+                
+                
+                <div class="grand-finale reveal delay-4">
+                    <strong>Happy Teacher's Day.</strong>
+                </div>
+                
+            </div>
+            
+        </section>
+        
+        
+    </main>
+    
+    
+    <footer>
+        Made with gratitude · Teacher's Day 2026
+    </footer>
+    
+    
+    <style>
+        .metrics {
+            min-height: 80vh;
+            
+            display: flex;
+            align-items: center;
+            
+            padding: 15vh 0;
+            
+            background: var(--pearl);
+        }
+        
+        .eyebrow {
+            margin-bottom: 20px;
+            
+            color: var(--accent);
+            
+            font-size: 11px;
+            font-weight: 800;
+            
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+        
+        .section-heading {
+            max-width: 900px;
+            
+            font-size: clamp(2.8rem, 7vw, 6.5rem);
+            
+            line-height: 0.98;
+            
+            letter-spacing: -0.06em;
+            
+            font-weight: 850;
+        }
+        
+        .metrics-intro {
+            margin-bottom: 70px;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            
+            grid-template-columns:
+                repeat(3, 1fr);
+            
+            border-top:
+                1px solid var(--border);
+            
+            border-bottom:
+                1px solid var(--border);
+        }
+        
+        .metric {
+            min-height: 250px;
+            
+            padding: 50px 35px;
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            
+            border-right:
+                1px solid var(--border);
+        }
+        
+        .metric:last-child {
+            border-right: none;
+        }
+        
+        .metric-number {
+            font-size: clamp(3rem, 6vw, 6rem);
+            
+            line-height: 1;
+            
+            font-weight: 850;
+            
+            letter-spacing: -0.06em;
+        }
+        
+        .metric-label {
+            max-width: 190px;
+            
+            color: var(--muted);
+            
+            font-family: var(--serif);
+            
+            line-height: 1.65;
+        }
+        
+        
+        
+        
+        .chapter {
+            position: relative;
+            
+            padding: 18vh 0 20vh;
+        }
+        
+        .chapter:nth-of-type(even) {
+            background: var(--pearl);
+        }
+        
+        .chapter-number {
+            margin-bottom: 28px;
+            
+            color: var(--accent);
+            
+            font-size: 11px;
+            font-weight: 850;
+            
+            letter-spacing: 0.2em;
+            
+            text-transform: uppercase;
+        }
+        
+        .chapter-title {
+            max-width: 1000px;
+            
+            margin-bottom: 80px;
+            
+            font-size: clamp(3rem, 7vw, 7rem);
+            
+            line-height: 0.94;
+            
+            letter-spacing: -0.065em;
+            
+            font-weight: 850;
+        }
+        
+        .chapter-lead {
+            margin-bottom: 75px;
+            
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            
+            line-height: 1.65;
+            
+            color: #334155;
+        }
+        
+        .chapter p {
+            margin-bottom: 34px;
+            
+            color: #334155;
+            
+            font-family: var(--serif);
+            
+            font-size: 1.08rem;
+            
+            line-height: 1.85;
+        }
+        
+        
+        
+        
+        .pull-quote {
+            width: min(100%, 950px);
+            
+            margin: 100px auto;
+            
+            padding: 70px 50px;
+            
+            border-top:
+                1px solid var(--border);
+            
+            border-bottom:
+                1px solid var(--border);
+            
+            text-align: center;
+        }
+        
+        .pull-quote p {
+            margin: 0;
+            
+            font-family: var(--sans);
+            
+            font-size: clamp(2rem, 5vw, 4.2rem);
+            
+            line-height: 1.05;
+            
+            letter-spacing: -0.05em;
+            
+            font-weight: 800;
+            
+            color: var(--ink);
+        }
+        
+        .pull-quote span {
+            display: block;
+            
+            margin-top: 28px;
+            
+            color: var(--soft);
+            
+            font-size: 11px;
+            font-weight: 800;
+            
+            letter-spacing: 0.16em;
+            
+            text-transform: uppercase;
+        }
+        
+        
+        
+        
+        .final {
+            min-height: 100svh;
+            
+            padding: 20vh 24px;
+            
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            text-align: center;
+            
+            background: var(--white);
+        }
+        
+        .final-content {
+            width: min(100%, 1000px);
+        }
+        
+        .final-heading {
+            margin-bottom: 90px;
+            
+            font-size: clamp(3.5rem, 9vw, 9rem);
+            
+            line-height: 0.9;
+            
+            letter-spacing: -0.07em;
+            
+            font-weight: 850;
+        }
+        
+        .photo-wrapper {
+            width: min(100%, 760px);
+            
+            margin: auto;
+            
+            padding: 18px;
+            
+            background: white;
+            
+            box-shadow:
+                0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            
+            transform: rotate(-1deg);
+            
+            transition: 0.8s ease;
+        }
+        
+        .photo-wrapper:hover {
+            transform: rotate(0deg) translateY(-5px);
+        }
+        
+        .photo-wrapper img {
+            width: 100%;
+            height: auto;
+        }
+        
+        .signoff {
+            margin-top: 70px;
+            
+            color: #475569;
+            
+            font-family: var(--serif);
+            
+            font-size: 1.4rem;
+            
+            line-height: 1.6;
+        }
+        
+        .signoff strong {
+            display: block;
+            
+            margin-top: 10px;
+            
+            font-family: var(--sans);
+            
+            color: var(--ink);
+        }
+        
+        
+        
+        
+        footer {
+            padding: 50px 24px 70px;
+            
+            text-align: center;
+            
+            background: var(--pearl);
+            
+            color: var(--soft);
+            
+            font-size: 11px;
+            font-weight: 700;
+            
+            letter-spacing: 0.12em;
+            
+            text-transform: uppercase;
+        }
+        
+        
+        
+        
+        @media (max-width: 700px) {
+            
+            .container {
+                width: min(100% - 32px, var(--wide));
+            }
+            
+            .site-header {
+                padding: 18px;
+            }
+            
+            .chapter {
+                padding: 15vh 0 17vh;
+            }
+            
+            .chapter-title {
+                margin-bottom: 55px;
+            }
+            
+            .chapter-lead {
+                margin-bottom: 50px;
+            }
+            
+            .chapter p {
+                font-size: 1rem;
+                line-height: 1.8;
+            }
+            
+            .metrics {
+                padding: 14vh 0;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .metric {
+                min-height: 190px;
+                
+                padding: 35px 22px;
+                
+                border-right: none;
+                
+                border-bottom:
+                    1px solid var(--border);
+            }
+            
+            .metric:last-child {
+                border-bottom: none;
+            }
+            
+            .pull-quote {
+                margin: 75px auto;
+                
+                padding: 55px 25px;
+            }
+            
+            .photo-wrapper {
+                padding: 10px;
+            }
+            
+            .final-heading {
+                margin-bottom: 65px;
+            }
+            
+            .signoff {
+                margin-top: 50px;
+            }
+        }
+    </style>
+    
+    
+    <script>
+        const revealElements =
+            document.querySelectorAll(".reveal");
+        
+        const revealObserver =
+            new IntersectionObserver(
+                (entries, observer) => {
+                    
+                    entries.forEach(entry => {
+                        
+                        if (!entry.isIntersecting) {
+                            return;
+                        }
+                        
+                        entry.target
+                            .classList
+                            .add("visible");
+                        
+                        observer.unobserve(
+                            entry.target
+                        );
+                        
+                    });
+                    
+                },
+                {
+                    rootMargin: "0px 0px -8% 0px",
+                    
+                    threshold: 0.08
+                }
+            );
+        
+        
+        revealElements.forEach(element => {
+            revealObserver.observe(element);
+        });
+        
+        
+        
+        
+        const counters =
+            document.querySelectorAll(
+                ".metric-number[data-target]"
+            );
+        
+        
+        const counterObserver =
+            new IntersectionObserver(
+                (entries, observer) => {
+                    
+                    entries.forEach(entry => {
+                        
+                        if (!entry.isIntersecting) {
+                            return;
+                        }
+                        
+                        animateCounter(
+                            entry.target
+                        );
+                        
+                        observer.unobserve(
+                            entry.target
+                        );
+                        
+                    });
+                    
+                },
+                {
+                    threshold: 0.5
+                }
+            );
+        
+        
+        function animateCounter(element) {
+            
+            const target =
+                Number(element.dataset.target);
+            
+            const suffix =
+                element.dataset.suffix || "";
+            
+            const duration = 1600;
+            
+            const start =
+                performance.now();
+            
+            
+            function update(time) {
+                
+                const elapsed =
+                    time - start;
+                
+                const progress =
+                    Math.min(
+                        elapsed / duration,
+                        1
+                    );
+                
+                const eased =
+                    1 -
+                    Math.pow(
+                        1 - progress,
+                        3
+                    );
+                
+                const value =
+                    Math.floor(
+                        target * eased
+                    );
+                
+                element.textContent =
+                    value.toLocaleString() +
+                    suffix;
+                
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+                
+            }
+            
+            requestAnimationFrame(update);
+        }
+        
+        
+        counters.forEach(counter => {
+            counterObserver.observe(counter);
+        });
+        
+        
+        
+        
+        const progressBar =
+            document.getElementById(
+                "progressBar"
+            );
+        
+        
+        function updateProgress() {
+            
+            const scrollTop =
+                window.scrollY;
+            
+            const height =
+                document.documentElement
+                .scrollHeight -
+                window.innerHeight;
+            
+            if (height <= 0) {
+                return;
+            }
+            
+            const progress =
+                (scrollTop / height) * 100;
+            
+            progressBar.style.width =
+                Math.min(progress, 100) + "%";
+        }
+        
+        
+        
+        
+        const header =
+            document.getElementById(
+                "siteHeader"
+            );
+        
+        
+        function updateHeader() {
+            
+            if (window.scrollY > 40) {
+                
+                header.classList.add(
+                    "scrolled"
+                );
+                
+            } else {
+                
+                header.classList.remove(
+                    "scrolled"
+                );
+                
+            }
+        }
+        
+        
+        
+        
+        const chapterIndicator =
+            document.getElementById(
+                "chapterIndicator"
+            );
+        
+        const chapters =
+            document.querySelectorAll(
+                "[data-chapter]"
+            );
+        
+        
+        const chapterObserver =
+            new IntersectionObserver(
+                entries => {
+                    
+                    entries.forEach(entry => {
+                        
+                        if (
+                            entry.isIntersecting
+                        ) {
+                            
+                            chapterIndicator.textContent =
+                                entry.target
+                                .dataset
+                                .chapter;
+                            
+                        }
+                        
+                    });
+                    
+                },
+                {
+                    rootMargin: "-35% 0px -55% 0px"
+                }
+            );
+        
+        
+        chapters.forEach(chapter => {
+            chapterObserver.observe(chapter);
+        });
+        
+        
+        
+        
+        let ticking = false;
+        
+        
+        window.addEventListener(
+            "scroll",
+            () => {
+                
+                if (ticking) {
+                    return;
+                }
+                
+                requestAnimationFrame(() => {
+                    
+                    updateProgress();
+                    updateHeader();
+                    
+                    ticking = false;
+                    
+                });
+                
+                ticking = true;
+                
+            },
+            {
+                passive: true
+            }
+        );
+        
+        
+        
+        
+        updateProgress();
+        updateHeader();
+    </script>
+    
+</body>
+
+</html>
