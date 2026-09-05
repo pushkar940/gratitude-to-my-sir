@@ -1010,62 +1010,137 @@
                         
                         
                     </p>
-                   <style type="text/css" media="all">
-                        .final-message-block {
+                   
+
+
+                    <p class="reveal">
+        You are not one of the teachers that I miss, you are the <b>only teacher</b> that I miss.
+    </p>
+                    
+                </div>
+                 <style>
+
+.special-background-wrapper {
+    width: 100%;
+    background-color: #fcfbf9; 
+    border-top: 1px solid #f0ebe1;
+    border-bottom: 1px solid #f0ebe1;
+    padding: 10vh 0; 
+    margin: 8vh 0; 
+}
+
+.poster-content {
     text-align: center;
-    margin: 12vh auto; /* Massive spacing to isolate this section */
     max-width: 800px;
+    margin: 0 auto;
     padding: 0 20px;
 }
 
+.pre-highlight {
+    font-size: 1.25rem;
+    color: #4b5563;
+    margin-bottom: 50px;
+    font-family: 'Inter', sans-serif;
+}
 
-.ultimate-highlight {
-    font-family: 'Lora', serif; /* Using the emotional serif font we discussed */
-    font-size: 3.5rem; /* Massive size */
+
+.typographic-poster {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+    font-family: 'Lora', serif; 
+}
+
+.poster-line-1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #111827; 
+    line-height: 1.1;
+}
+
+.poster-line-2 {
+    font-size: 3.5rem;
     font-weight: 600;
-    line-height: 1.2;
-    color: #111827; /* Deepest black/charcoal for highest contrast */
+    font-style: italic;
+    color: #c28b1e; 
+    line-height: 1.1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px; 
 }
 
-.ultimate-highlight .chair-reserved {
-    display: inline-block;
-    color: #ca8a04; /* A warm, emotional golden/bronze accent color */
-    font-style: italic; /* Gives it that handwritten, deeply personal feel */
-    margin: 15px 0;
-}
-
-.ultimate-highlight .join-anytime {
-    font-size: 2rem; /* Slightly smaller to keep the focus on the chair */
-    color: #374151;
-    display: block;
+.poster-line-3 {
+    font-size: 2rem;
     font-weight: 400;
+    color: #374151; 
+    margin-top: 15px;
+}
+
+
+.pulsing-beacon-gold {
+    display: block;
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0; 
+    background-color: #c28b1e; 
+    border-radius: 50%; 
+    box-shadow: 0 0 0 0 rgba(194, 139, 30, 0.7);
+    animation: pulse-gold 2s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+
+@keyframes pulse-gold {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(194, 139, 30, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 15px rgba(194, 139, 30, 0); 
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(194, 139, 30, 0);
+    }
 }
 
 
 @media (max-width: 768px) {
-    .ultimate-highlight {
-        font-size: 2.5rem;
+    .poster-line-1, 
+    .poster-line-2 {
+        font-size: 2.2rem;
     }
-    .ultimate-highlight .join-anytime {
-        font-size: 1.5rem;
+    .poster-line-3 {
+        font-size: 1.4rem;
+    }
+    .pulsing-beacon-gold {
+        width: 10px;
+        height: 10px;
+    }
+    .poster-line-2 {
+        gap: 10px;
     }
 }
+</style>
 
-                    </style>
-                    <p class="reveal">
-        You are not one of the teachers that I miss, you are the <b>only teacher</b> that I miss.
-    </p>
-                    <div class="final-message-block reveal">
-    
+<div class="special-background-wrapper reveal">
+    <div class="poster-content">
+        
 
-    <h2 class="ultimate-highlight">
-        I really miss you, Sir. <br>
-        <span class="chair-reserved">Your chair is still reserved.</span> <br>
-        <span class="join-anytime">You can join us anytime.</span>
-    </h2>
-                    </div>
-                </div>
-                
+
+        <div class="typographic-poster">
+            <span class="poster-line-1">I really miss you, Sir.</span>
+            
+            <span class="poster-line-2">
+                <span class="pulsing-beacon-gold"></span>
+                Your chair is still reserved.
+            </span>
+            
+            <span class="poster-line-3">You can join us anytime.</span>
+        </div>
+
+    </div>
+</div>
             </div>
             
         </section>
